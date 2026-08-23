@@ -71,9 +71,23 @@ Ensure the output is valid JSON without markdown wrapping.`;
       });
 
       res.json(JSON.parse(response.text || "[]"));
-    } catch (error) {
-      console.error("AI Error:", error);
-      res.status(500).json({ error: "Failed to find schemes" });
+    } catch (error: any) {
+      console.error("========== SCHEMES API ERROR ==========");
+      console.error("Timestamp:", new Date().toISOString());
+      console.error("Request Body:", JSON.stringify(req.body));
+      console.error("API Key Present:", !!process.env.GEMINI_API_KEY);
+      console.error("Error Name:", error?.name);
+      console.error("Error Message:", error?.message);
+      console.error("Error Stack:", error?.stack);
+      if (error?.status) console.error("Status Code:", error.status);
+      if (error?.response) console.error("API Response Details:", JSON.stringify(error.response, null, 2));
+      console.error("=======================================");
+      
+      res.status(500).json({ 
+        error: "Failed to find schemes",
+        debugMessage: error?.message || "Unknown error",
+        apiKeyPresent: !!process.env.GEMINI_API_KEY
+      });
     }
   });
 
