@@ -8,13 +8,12 @@ dotenv.config();
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-async function startServer() {
-  const app = express();
-  const PORT = 3000;
+const app = express();
+const PORT = 3000;
 
-  app.use(express.json());
+app.use(express.json());
 
-  // API Routes
+// API Routes
   app.post("/api/chat", async (req, res) => {
     try {
       const { prompt, persona, location, language } = req.body;
@@ -81,22 +80,26 @@ Ensure the output is valid JSON without markdown wrapping.`;
 
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
+    // Only start Vite in dev mode
+    createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
+    }).then((vite) => {
+      app.use(vite.middlewares);
     });
-    app.use(vite.middlewares);
   } else {
-    const distPath = path.join(process.cwd(), "dist");
+    const distPath = path.join(process.cwd(), "dist", "client");
     app.use(express.static(distPath));
     app.get("*", (req, res) => {
       res.sendFile(path.join(distPath, "index.html"));
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
-}
+  // Only start the server locally if not in a Vercel environment
+  if (!process.env.VERCEL) {
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+    });
+  }
 
-startServer();
+export default app;
