@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAppContext } from '../../context/AppContext';
-import { Loader2, FileText, CheckCircle, Info } from 'lucide-react';
+import { Loader2, FileText, CheckCircle, Info, MapPin } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface Scheme {
@@ -54,7 +54,20 @@ export default function Schemes() {
     <div className="space-y-6">
       <header className="mb-8">
         <h1 className="text-3xl font-bold text-slate-900 mb-2">Government Schemes</h1>
-        <p className="text-slate-600">AI-recommended schemes based on your profile.</p>
+        <p className="text-slate-600 mb-4">AI-recommended schemes intelligently matched to your profile.</p>
+        
+        <div className="flex flex-wrap gap-3">
+          <span className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 px-3 py-1.5 rounded-xl text-sm font-semibold border border-blue-100">
+            <UserIcon className="w-4 h-4" />
+            Filtering for: {profile.persona}
+          </span>
+          {profile.location && (
+            <span className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 px-3 py-1.5 rounded-xl text-sm font-semibold border border-blue-100">
+              <MapPin className="w-4 h-4" />
+              State: {profile.location}
+            </span>
+          )}
+        </div>
       </header>
 
       {isLoading ? (
@@ -65,6 +78,12 @@ export default function Schemes() {
       ) : error ? (
         <div className="bg-red-50 text-red-600 p-6 rounded-2xl border border-red-100 text-center">
           {error}
+        </div>
+      ) : schemes.length === 0 ? (
+        <div className="bg-white p-12 rounded-3xl border border-slate-200 text-center shadow-sm">
+          <FileText className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+          <h3 className="text-xl font-bold text-slate-900 mb-2">No Schemes Found</h3>
+          <p className="text-slate-500">We couldn't find any specific schemes matching your profile right now.</p>
         </div>
       ) : (
         <div className="space-y-6">

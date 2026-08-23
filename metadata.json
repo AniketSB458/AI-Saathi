@@ -1,6 +1,8 @@
 {
-  "name": "",
-  "description": "",
+  "name": "Ai Saathi",
+  "description": "Ai Saathi",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
