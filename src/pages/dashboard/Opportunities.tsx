@@ -1,3 +1,5 @@
+import { t } from '../../utils/translations';
+import { T } from '../components/T';
 import { TrendingUp, DollarSign, Package } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useAppContext } from '../../context/AppContext';
@@ -9,10 +11,9 @@ export default function Opportunities() {
     <div className="space-y-6">
       <header className="mb-8 flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Grow & Opportunities</h1>
-          <p className="text-slate-600">Smart insights to improve your livelihood.</p>
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">{t("Grow & Opportunities", profile.language)}</h1>
+          <p className="text-slate-600">{t("Smart insights to improve your livelihood.", profile.language)}</p>
         </div>
-        <span className="text-xs font-bold bg-slate-100 text-slate-500 px-3 py-1.5 rounded-lg">DEMO DATA</span>
       </header>
 
       {profile.persona === 'Artisan' || profile.persona === 'Street Vendor' ? (
@@ -21,11 +22,11 @@ export default function Opportunities() {
             <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-4">
               <DollarSign className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold text-slate-900 mb-2">Smart Pricing</h3>
-            <p className="text-slate-600 mb-4">Based on local demand, suggested selling price for your current product is slightly higher.</p>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">{t("Smart Pricing", profile.language)}</h3>
+            <p className="text-slate-600 mb-4">{t("Based on local demand, suggested selling price for your current product is slightly higher.", profile.language)}</p>
             <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
-              <div className="text-sm text-slate-500 mb-1">Suggested Range</div>
-              <div className="text-2xl font-bold text-emerald-600">₹150 - ₹180</div>
+              <div className="text-sm text-slate-500 mb-1">{t("Suggested Range", profile.language)}</div>
+              <div className="text-2xl font-bold text-primary-600">₹150 - ₹180</div>
             </div>
           </motion.div>
 
@@ -35,7 +36,7 @@ export default function Opportunities() {
             </div>
             <h3 className="text-xl font-bold text-slate-900 mb-2">Demand Insight</h3>
             <p className="text-slate-600 mb-4">Upcoming local festival in 2 weeks. Demand for decorative items and sweets will increase by 40%.</p>
-            <button className="text-emerald-600 font-semibold flex items-center gap-2 hover:underline">
+            <button className="text-primary-600 font-semibold flex items-center gap-2 hover:underline">
               Ask AI for preparation tips →
             </button>
           </motion.div>
@@ -43,7 +44,7 @@ export default function Opportunities() {
       ) : profile.persona === 'Farmer' ? (
         <div className="grid md:grid-cols-2 gap-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-            <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mb-4">
+            <div className="w-12 h-12 bg-primary-100 text-primary-600 rounded-xl flex items-center justify-center mb-4">
               <Package className="w-6 h-6" />
             </div>
             <h3 className="text-xl font-bold text-slate-900 mb-2">Crop Advisor</h3>

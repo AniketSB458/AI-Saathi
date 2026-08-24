@@ -1,3 +1,5 @@
+import { t } from '../../utils/translations';
+import { T } from '../components/T';
 import { AlertTriangle, CloudRain, Bell, CheckCircle2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useAppContext } from '../../context/AppContext';
@@ -49,9 +51,9 @@ export default function Alerts() {
       message: 'Demand for organic vegetables is high in nearby town market this weekend.',
       time: '2 days ago',
       icon: <CheckCircle2 className="w-6 h-6" />,
-      color: 'text-emerald-600',
-      bg: 'bg-emerald-50',
-      border: 'border-emerald-100',
+      color: 'text-primary-600',
+      bg: 'bg-primary-50',
+      border: 'border-primary-100',
       relevantFor: ['Farmer', 'Street Vendor']
     }
   ];
@@ -62,10 +64,9 @@ export default function Alerts() {
     <div className="space-y-6">
       <header className="mb-8 flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Important Alerts</h1>
-          <p className="text-slate-600">Time-sensitive information for you.</p>
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">{t("Important Alerts", profile.language)}</h1>
+          <p className="text-slate-600">{t("Time-sensitive information for you.", profile.language)}</p>
         </div>
-        <span className="text-xs font-bold bg-slate-100 text-slate-500 px-3 py-1.5 rounded-lg">DEMO DATA</span>
       </header>
 
       {filteredAlerts.length === 0 ? (

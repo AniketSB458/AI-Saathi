@@ -10,12 +10,13 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const app = express();
 const PORT = 3000;
 
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // API Routes
   app.post("/api/chat", async (req, res) => {
     try {
-      const { prompt, persona, location, language } = req.body;
+      const { prompt, persona, location, language, image } = req.body;
       const systemInstruction = `You are AI Saathi, a friendly and helpful assistant for underserved communities in India.
 The user is a ${persona} located in ${location}.
 The user prefers to communicate in ${language}. You must understand and process any language the user inputs.
@@ -24,9 +25,20 @@ Keep your responses short, simple, actionable, and easy to understand for someon
 Avoid technical jargon.
 Structure your responses with emojis for visual cues where appropriate.`;
 
+      const contents: any[] = [];
+      if (image && image.base64 && image.mimeType) {
+        contents.push({
+          inlineData: {
+            data: image.base64,
+            mimeType: image.mimeType
+          }
+        });
+      }
+      contents.push(prompt);
+
       const response = await ai.models.generateContent({
         model: "gemini-3.6-flash",
-        contents: prompt,
+        contents: contents,
         config: {
           systemInstruction,
           temperature: 0.7,
@@ -57,6 +69,7 @@ Format the response as a JSON array of objects with the following fields:
 - "documents": Array of strings (required documents)
 - "process": Short description of how to apply
 - "confidence": A string like "High" or "Medium" based on eligibility match.
+- "link": A real official URL to apply or read more about the scheme (fallback to a generic search link if you can't find one).
 
 Ensure the output is valid JSON without markdown wrapping.`;
 

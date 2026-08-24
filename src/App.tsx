@@ -8,6 +8,7 @@ import AiAssistant from './pages/dashboard/AiAssistant';
 import Schemes from './pages/dashboard/Schemes';
 import Opportunities from './pages/dashboard/Opportunities';
 import Alerts from './pages/dashboard/Alerts';
+import Profile from './pages/dashboard/Profile';
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
             <Route path="schemes" element={<Schemes />} />
             <Route path="opportunities" element={<Opportunities />} />
             <Route path="alerts" element={<Alerts />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
         </Routes>
       </BrowserRouter>

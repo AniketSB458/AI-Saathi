@@ -1,4 +1,6 @@
+import { T } from '../components/T';
 import { useState, useEffect } from 'react';
+import { t } from '../../utils/translations';
 import { useAppContext } from '../../context/AppContext';
 import { Loader2, FileText, CheckCircle, Info, MapPin } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -10,6 +12,7 @@ interface Scheme {
   documents: string[];
   process: string;
   confidence: string;
+  link?: string;
 }
 
 export default function Schemes() {
@@ -53,8 +56,8 @@ export default function Schemes() {
   return (
     <div className="space-y-6">
       <header className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">Government Schemes</h1>
-        <p className="text-slate-600 mb-4">AI-recommended schemes intelligently matched to your profile.</p>
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">{t("Government Schemes", profile.language)}</h1>
+        <p className="text-slate-600 mb-4">{t("AI-recommended schemes intelligently matched to your profile.", profile.language)}</p>
         
         <div className="flex flex-wrap gap-3">
           <span className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 px-3 py-1.5 rounded-xl text-sm font-semibold border border-blue-100">
@@ -71,7 +74,7 @@ export default function Schemes() {
       </header>
 
       {isLoading ? (
-        <div className="flex flex-col items-center justify-center py-20 text-emerald-600">
+        <div className="flex flex-col items-center justify-center py-20 text-primary-600">
           <Loader2 className="w-12 h-12 animate-spin mb-4" />
           <p className="font-medium text-lg">Finding the best schemes for you...</p>
         </div>
@@ -98,7 +101,7 @@ export default function Schemes() {
               <div className="p-6 md:p-8">
                 <div className="flex justify-between items-start mb-4">
                   <h2 className="text-2xl font-bold text-slate-900 flex-1 pr-4">{scheme.name}</h2>
-                  <span className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap">
+                  <span className="inline-flex items-center gap-1 bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap">
                     <CheckCircle className="w-3 h-3" />
                     {scheme.confidence} Match
                   </span>
@@ -109,14 +112,14 @@ export default function Schemes() {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
                     <h3 className="font-semibold text-slate-900 mb-2 flex items-center gap-2">
-                      <UserIcon className="w-4 h-4 text-emerald-600" /> Who Can Apply?
+                      <UserIcon className="w-4 h-4 text-primary-600" /> {t("Who Can Apply?", profile.language)}
                     </h3>
                     <p className="text-slate-600 text-sm">{scheme.whoCanApply}</p>
                   </div>
                   
                   <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
                     <h3 className="font-semibold text-slate-900 mb-2 flex items-center gap-2">
-                      <FileText className="w-4 h-4 text-blue-600" /> Required Documents
+                      <FileText className="w-4 h-4 text-blue-600" /> {t("Required Documents", profile.language)}
                     </h3>
                     <ul className="list-disc list-inside text-sm text-slate-600 space-y-1">
                       {scheme.documents.map((doc, i) => (
@@ -131,9 +134,15 @@ export default function Schemes() {
                       <Info className="w-4 h-4" />
                       <span>{scheme.process}</span>
                    </div>
-                   <button className="w-full sm:w-auto bg-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-emerald-700 transition-colors shadow-sm">
-                     How to Apply
-                   </button>
+                   {scheme.link ? (
+                     <a href={scheme.link} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto bg-primary-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary-700 transition-colors shadow-sm text-center">
+                       {t("More Info", profile.language)}
+                     </a>
+                   ) : (
+                     <button className="w-full sm:w-auto bg-primary-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary-700 transition-colors shadow-sm">
+                       How to Apply
+                     </button>
+                   )}
                 </div>
               </div>
             </motion.div>
